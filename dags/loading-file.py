@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from kaggle.api.kaggle_api_extended import KaggleApi
-from google.cloud import storage, bigquery
+from google.cloud import storage
 import logging
 from datetime import datetime, timedelta
 from config import BUCKET_NAME, FILE_NAME, K_DATASET, KAGGLE2BQ_DAG
@@ -24,6 +24,7 @@ def download_from_kaggle():
     try:
         api = KaggleApi()
         api.authenticate()
+        logging.info("Downloading file from Kaggle...")
         api.dataset_download_files(dataset=K_DATASET, path='/tmp', unzip=True)
         logging.info("File downloaded successfully.")
 
@@ -35,13 +36,17 @@ def upload_to_gcs():
     try:
         client = storage.Client()
         bucket = client.get_bucket(BUCKET_NAME)
-        blob = bucket.blob(FILE_NAME)
-        blob.upload_from_filename('/tmp/' + FILE_NAME)
+        #blob = bucket.blob(FILE_NAME)
+        blob_name = 'raw/' + FILE_NAME
+
+        blob = bucket.blob(blob_name, chunk_size=10 * 1024 * 1024)
+        with open('/tmp/' + FILE_NAME, 'rb') as f:
+            blob.upload_from_file(f, rewind=True, content_type='text/csv')
         logging.info("File uploaded successfully.")
+
     except Exception as e:
         logging.error(f"Error uploading file to GCS: {e}")
         raise AirflowFailException 
-
 
 with dag:
     download_task = PythonOperator(
