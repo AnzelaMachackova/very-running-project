@@ -1,0 +1,14 @@
+.DS_Store
+.idea
+*.tfstate
+*.tfstate.*
+**.terraform
+**.terraform.lock.*
+*variables.tf
+*config.py
+**logs/
+**.env
+**__pycache__/
+.history
+serving_dir
+.ipynb_checkpoints/
