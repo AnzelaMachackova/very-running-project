@@ -23,6 +23,11 @@ variable "bq_dataset_name_stage" {
   default     = "stage"
 }
 
+variable "bq_dataset_name_core" {
+  description = "My BigQuery Dataset Name"
+  default     = "core"
+}
+
 variable "bq_dataset_name_report" {
   description = "My BigQuery Dataset Name"
   default     = "report"

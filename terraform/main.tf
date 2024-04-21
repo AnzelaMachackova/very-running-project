@@ -36,6 +36,11 @@ resource "google_bigquery_dataset" "stage" {
   location   = var.location
 }
 
+resource "google_bigquery_dataset" "core" {
+  dataset_id = var.bq_dataset_name_core
+  location   = var.location
+}
+
 resource "google_bigquery_dataset" "report" {
   dataset_id = var.bq_dataset_name_report
   location   = var.location
