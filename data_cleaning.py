@@ -7,6 +7,7 @@ from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
 from pyspark.sql import functions as F
 from pyspark.sql.functions import col
+from pyspark.sql.types import IntegerType, DoubleType
 
 
 spark = SparkSession.builder \
@@ -54,15 +55,20 @@ running_df = running_df.withColumn(
 
 running_df = running_df.withColumn('athlete_performance', F.split(F.col('athlete_performance'), ' ')[0])
 
-running_df.createOrReplaceTempView('running_data')
+running_df = running_df.withColumn("year_of_event", col("year_of_event").cast(IntegerType()))
+running_df = running_df.withColumn("event_num_finishers", col("event_num_finishers").cast(IntegerType()))
+running_df = running_df.withColumn("athlete_year_of_birth", col("athlete_year_of_birth").cast(IntegerType()))
+running_df = running_df.withColumn("athlete_average_speed", col("athlete_average_speed").cast(DoubleType()))
+running_df = running_df.withColumn("athlete_id", col("athlete_id").cast(IntegerType()))
 
+running_df.createOrReplaceTempView('running_data')
 
 sql_query = """
 SELECT
     *,
     CASE 
-        WHEN SUBSTRING_INDEX(event_distance_length, 'mi', 1) = event_distance_length THEN CAST(SUBSTRING_INDEX(event_distance_length, 'km', 1) AS INT)
-        WHEN SUBSTRING_INDEX(event_distance_length, 'km', 1) = event_distance_length THEN CAST(SUBSTRING_INDEX(event_distance_length, 'km', 1) AS INT)
+        WHEN event_distance_length LIKE '%mi' THEN CAST(SUBSTRING_INDEX(event_distance_length, 'mi', 1) AS FLOAT) * 1.60934
+        WHEN event_distance_length LIKE '%km' THEN CAST(SUBSTRING_INDEX(event_distance_length, 'km', 1) AS INT)
         ELSE 'Unknown'
     END AS distance_in_km
 FROM running_data
@@ -70,12 +76,11 @@ FROM running_data
 
 result_df = spark.sql(sql_query)
 
+result_df = result_df.withColumn("distance_in_km", col("distance_in_km").cast(DoubleType()))
+
 result_df.write.format('bigquery') \
     .option('table', 'stage.ultrarunning_data') \
+    .mode('overwrite') \
     .save()
-
-
-
-
 
 
