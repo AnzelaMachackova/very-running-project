@@ -1,0 +1,48 @@
+version: 1
+
+sources:
+  - name: stage
+    database: de-running-project
+    schema: stage
+    tables:
+      - name: ultrarunning_data
+
+models:
+    - name: stg_ultrarunning_data
+      description: >
+        The table is a large collection of ultra-marathon race records registered between 1798 and 2022 
+        (a period of well over two centuries) being therefore a formidable long term sample. 
+        All data was obtained from public websites.
+      columns:
+          - name: year_of_event
+            description: TBD
+          - name: event_dates 
+            description: TBD
+          - name: event_distance_length
+            description: TBD
+          - name: event_name
+            description: TBD
+          - name: event_distance_lenght
+            description: TBD
+          - name: event_num_finishers
+            description: TBD
+          - name: athlete_performance
+            description: TBD
+          - name: athlete_club
+            description: TBD
+          - name: athlete_country
+            description: TBD
+          - name: athlete_year_of_birth
+            description: TBD
+          - name: athlete_gender
+            description: TBD
+          - name: athlete_age_category
+            description: TBD
+          - name: athlete_average_speed
+            description: TBD
+          - name: athlete_id
+            description: TBD
+          - name: event_type
+            description: TBD
+          - name: distance_in_km
+            description: TBD
