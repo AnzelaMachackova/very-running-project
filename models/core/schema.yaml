@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: event_name_mapping
+    description: "This table maps event names to unique event IDs."
+    columns:
+      - name: event_name
+        description: "The name of the event."
+        tests:
+          - unique
+          - not_null
+      - name: event_id
+        description: "A unique identifier for each event, generated sequentially."
+        tests:
+          - unique
+          - not_null
+
+  - name: events
+    description: "A core table that aggregates detailed information about each event including name, type, and metrics."
+    columns:
+      - name: event_id
+        description: "The unique identifier for the event, referencing event_name_mapping."
+        tests:
+          - not_null
+      - name: race_name
+        description: "The name of the race, cleaned to remove parenthetical country codes."
+      - name: event_name
+        description: "The original event name as it appears in the source data."
+        tests:
+          - not_null
+      - name: event_country
+        description: "The country extracted from the event name."
+      - name: event_type
+        description: "The type of the event."
+      - name: event_dates
+        description: "The dates on which the event takes place."
+      - name: year_of_event
+        description: "The year in which the event is held."
+      - name: event_distance_length
+        description: "The length of the event, as reported in the source data."
+      - name: distance_in_km
+        description: "The event distance in kilometers."
+      - name: event_num_finishers
+        description: "The number of finishers at the event."
+      - name: event_duration
+        description: "The calculated duration of the event based on time."
+
+  - name: athletes_club
+    description: "Stores athlete IDs, clubs, and event IDs where athlete clubs are not null."
+    columns:
+      - name: athlete_id
+        description: "Unique identifier for each athlete."
+        tests:
+          - not_null
+          - unique
+      - name: athlete_club
+        description: "Club associated with the athlete."
+        tests:
+          - not_null
+      - name: event_id
+        description: "Foreign key to events."
+        tests:
+          - not_null
+
+  - name: athletes
+    description: "Aggregated data about athletes including birth year, gender, and country."
+    columns:
+      - name: athlete_id
+        description: "Unique identifier for each athlete."
+        tests:
+          - not_null
+          - unique
+      - name: athlete_year_of_birth
+        description: "Year of birth of the athlete."
+      - name: athlete_gender
+        description: "Gender of the athlete."
+      - name: athlete_country
+        description: "Country of the athlete."
+
+  - name: performance_test
+    description: "Performance data for athletes including average speed and performance."
+    columns:
+      - name: performance_id
+        description: "Unique identifier for each performance entry."
+        tests:
+          - not_null
+          - unique
+      - name: athlete_id
+        description: "Foreign key to athletes."
+        tests:
+          - not_null
+      - name: event_id
+        description: "Foreign key to events."
+        tests:
+          - not_null
+      - name: athlete_average_speed
+        description: "Average speed of the athlete during the event."
+      - name: athlete_performance
+        description: "Performance score of the athlete."
+
+  
+
