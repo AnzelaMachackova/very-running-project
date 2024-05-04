@@ -39,11 +39,11 @@ models:
       - name: event_distance_length
         description: "The length of the event, as reported in the source data."
       - name: distance_in_km
-        description: "The event distance converted into kilometers."
+        description: "The event distance in kilometers."
       - name: event_num_finishers
         description: "The number of finishers at the event."
       - name: event_duration
-        description: "The calculated duration of the event based on distance and unit conversions."
+        description: "The calculated duration of the event based on time."
 
   - name: athletes_club
     description: "Stores athlete IDs, clubs, and event IDs where athlete clubs are not null."

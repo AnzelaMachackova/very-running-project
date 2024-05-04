@@ -11,14 +11,7 @@ SELECT
   MAX(u.event_distance_length) AS event_distance_length,
   MAX(u.distance_in_km) as distance_in_km,
   u.event_num_finishers,
-  MAX(ROUND(CASE
-    WHEN REGEXP_CONTAINS(u.event_distance_length, r'd$') THEN CAST(REGEXP_EXTRACT(u.event_distance_length, r'(\d+)') AS FLOAT64) * 24
-    WHEN REGEXP_CONTAINS(u.event_distance_length, r'h$') AND NOT REGEXP_CONTAINS(u.event_distance_length, r':') THEN CAST(REGEXP_EXTRACT(u.event_distance_length, r'(\d+)') AS FLOAT64)
-    WHEN REGEXP_CONTAINS(u.event_distance_length, r':') THEN 
-      CAST(REGEXP_EXTRACT(u.event_distance_length, r'(\d+):') AS FLOAT64) + 
-      CAST(REGEXP_EXTRACT(u.event_distance_length, r':(\d+)') AS FLOAT64) / 60
-    ELSE NULL
-  END, 2)) AS event_duration
+  MAX({{ calculate_duration('u.event_distance_length') }}) AS event_duration
 FROM
   {{ source('running_stage_data', 'ultrarunning_data') }} u
 LEFT JOIN

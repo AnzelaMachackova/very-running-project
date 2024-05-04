@@ -1,0 +1,9 @@
+version: 2
+
+macros:
+  - name: calculate_duration
+    description: "Calculates the duration based on event distance length with various conditions."
+    arguments:
+      - name: column
+        description: "The column name which contains event distance length data with potential units of hours ('h'), days ('d'), or in the format 'hh:mm'."
+        type: string
