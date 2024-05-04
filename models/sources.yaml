@@ -1,0 +1,7 @@
+version: 2
+sources:
+  - name: running_stage_data
+    database: de-running-project
+    schema: stage
+    tables:
+      - name: ultrarunning_data
