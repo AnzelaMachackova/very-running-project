@@ -1,6 +1,10 @@
 FROM apache/airflow:latest
 
-RUN pip install kaggle          
+RUN pip3 install kaggle          
 
-RUN pip install requests
-RUN pip install dbt
+# RUN pip install requests
+
+# copy dbt project into the Docker image
+RUN pip3 install dbt
+COPY dbt /dbt_project
+WORKDIR /dbt_project

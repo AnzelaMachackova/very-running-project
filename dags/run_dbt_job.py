@@ -2,8 +2,10 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
-#import requests
-#import logging
+from airflow.exceptions import AirflowFailException
+import requests
+import logging
+from api_config import ACCOUNT_ID, API_TOCKEN, JOB_ID
 
 default_args = {
     'owner': 'airflow',
@@ -12,6 +14,7 @@ default_args = {
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
 }
+
 
 dag = DAG(
     'dbt_trigger',
@@ -23,29 +26,33 @@ dag = DAG(
 )
 
 # task to trigger dbt job via API (not implemented because of free tier limitations)
-# def trigger_dbt_job_via_api(): 
-#     url = f"https://cloud.getdbt.com/api/v2/accounts/{account_id}/jobs/{job_id}/run/"
-#     headers = {
-#         "Authorization": f"Token {api_token}"
-#     }
-#     body = {
-#         "cause": "Triggered by Airflow"}
+def trigger_dbt_job_via_api(): 
+    url = f"https://tn942.us1.dbt.com/api/v2/accounts/{ACCOUNT_ID}/jobs/{JOB_ID}/run/"
+    headers = {
+        "Authorization": f"Token {API_TOCKEN}",
+        "Content-Type": "application/json"
+    }
+    body = {
+        "cause": "Triggered via API",}
     
-#     logging.info(f"Triggering dbt job with URL: {url}")
-#     response = requests.post(url, headers=headers, json=body)
-#     if response.status_code == 200:
-#         logging.info("dbt job triggered successfully")
-#     else:
-#         logging.info(f"Failed to trigger dbt job: {response.text}")
+    logging.info(f"Triggering dbt job with URL: {url}")
+    response = requests.post(url, headers=headers, json=body)
+    if response.status_code == 200:
+        logging.info("dbt job triggered successfully")
+    else:
+        logging.error(f"Failed to trigger dbt job: {response.text}")
+        raise AirflowFailException
 
-# trigger_job = PythonOperator(
-#     task_id='trigger_dbt_job',
-#     python_callable=trigger_dbt_job,
+trigger_job = PythonOperator(
+    task_id='trigger_dbt_job',
+    python_callable=trigger_dbt_job_via_api,
+    dag=dag,
+)
+
+# run_dbt = BashOperator(
+#     task_id='run_dbt_job',
+#     bash_command='dbt run',
 #     dag=dag,
 # )
 
-run_dbt = BashOperator(
-    task_id='run_dbt_job',
-    bash_command='dbt run',
-    dag=dag,
-)
+trigger_job
