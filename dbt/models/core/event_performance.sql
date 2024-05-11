@@ -6,7 +6,8 @@ SELECT
   e.event_id,
   u.athlete_average_speed,
   u.athlete_performance,
-  u.athlete_age_category
+  u.athlete_age_category,
+  u.athlete_club
 FROM 
   {{ source('running_stage_data', 'ultrarunning_data') }} u
 LEFT JOIN 

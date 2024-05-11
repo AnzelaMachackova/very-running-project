@@ -18,14 +18,17 @@ models:
   - name: events
     description: "A core table that aggregates detailed information about each event including name, type, and metrics."
     columns:
+      - name: event_num
+        description: "The unique identifier for the event row."
+        tests:
+          - not_null
+          - unique     
       - name: event_id
-        description: "The unique identifier for the event, referencing event_name_mapping."
+        description: "The identifier for the event, referencing event_name_mapping."
         tests:
           - not_null
       - name: race_name
         description: "The name of the race, cleaned to remove parenthetical country codes."
-      - name: event_name
-        description: "The original event name as it appears in the source data."
         tests:
           - not_null
       - name: event_country
@@ -40,10 +43,10 @@ models:
         description: "The length of the event, as reported in the source data."
       - name: distance_in_km
         description: "The event distance in kilometers."
-      - name: event_num_finishers
-        description: "The number of finishers at the event."
       - name: event_duration
         description: "The calculated duration of the event based on time."
+      - name: event_num_finishers
+        description: "The number of finishers at the event."
 
   - name: athletes_club
     description: "Stores athlete IDs, clubs, and event IDs where athlete clubs are not null."
@@ -77,7 +80,7 @@ models:
       - name: athlete_country
         description: "Country of the athlete."
 
-  - name: performance_test
+  - name: event_performance
     description: "Performance data for athletes including average speed and performance."
     columns:
       - name: performance_id
@@ -97,6 +100,10 @@ models:
         description: "Average speed of the athlete during the event."
       - name: athlete_performance
         description: "Performance score of the athlete."
+      - name: athlete_club
+        description: "Club associated with the athlete."
+        tests:
+          - not_null
 
   
 
