@@ -10,13 +10,9 @@ CREATE_CORE_TABLES_DAG = 'create_core_tables'
 FILE_NAME = 'TWO_CENTURIES_OF_UM_RACES.csv'
 K_DATASET = 'aiaiaidavid/the-big-dataset-of-ultra-marathon-running' 
 
-# config for staging layer
+# config for staging layer (PySpark job)
 BQ_STAGE_TABLE = 'de-running-project.stage.ultrarunning_data'
-
-# config for core layer
-BQ_EVENTS_TABLE = 'de-running-project.core.events'
-SQL_FILE_PATH_EVENTS = 'sql/events.sql'
-BQ_ATHLETES_TABLE = 'de-running-project.core.athletes'
-BQ_RESULTS_TABLE = 'de-running-project.core.results'
-
-# config for report layer
+REGION = 'europe-west3'
+PYSPARK_URI = 'gs://de-running-project-bucket/code/data_cleaning.py' 
+CLUSTER_NAME = 'de-running-cluster-9b9e'
+DATAPROC_JAR = ["gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.11-0.23.2.jar"]
