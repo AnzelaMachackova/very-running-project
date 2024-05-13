@@ -25,7 +25,7 @@ dag = DAG(
     catchup=False
 )
 
-# task to trigger dbt job via API (not implemented because of free tier limitations)
+# task to trigger dbt job via API 
 def trigger_dbt_job_via_api(): 
     url = f"https://tn942.us1.dbt.com/api/v2/accounts/{ACCOUNT_ID}/jobs/{JOB_ID}/run/"
     headers = {
