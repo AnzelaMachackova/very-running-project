@@ -102,8 +102,6 @@ models:
         description: "Performance score of the athlete."
       - name: athlete_club
         description: "Club associated with the athlete."
-        tests:
-          - not_null
 
   
 
