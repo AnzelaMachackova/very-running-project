@@ -1,0 +1,20 @@
+.DS_Store
+.idea
+*.tfstate
+*.tfstate.*
+**.terraform
+**.terraform.lock.*
+*variables.tf
+*config.py
+**logs/
+**.env
+**__pycache__/
+.history
+serving_dir
+.ipynb_checkpoints/
+# Default .gitignore content added by dbt Cloud# you shouldn't commit these into source control
+# these are the default directory names, adjust/add to fit your needs
+target/
+dbt_packages/
+logs/
+# end dbt Cloud content
