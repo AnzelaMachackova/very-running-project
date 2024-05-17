@@ -4,6 +4,7 @@ SELECT
   ROW_NUMBER() OVER() AS performance_id,
   u.athlete_id,
   e.event_id,
+  u.year_of_event,
   u.athlete_average_speed,
   u.athlete_performance,
   u.athlete_age_category,
