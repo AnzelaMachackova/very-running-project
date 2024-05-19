@@ -22,7 +22,7 @@ The architecture of the project is illustrated in the diagram with the following
 
 1. **Data Ingestion**: Data is pulled from Kaggle via an API and stored in Google Cloud Storage.
 2. **Data Transformation**: Apache Spark and dbt are used for data transformation. The choice of these tools was driven by practical considerations—to experience both PySpark jobs on Google Cloud Platform (Dataproc) and integration with dbt.
-3. **Visualization**: The processed data is visualized using Looker, showing trends in ultrarunning events since 1980 and providing detailed athlete profiles.
+3. **Visualization**: The processed data is visualized using Looker, showing trends in ultrarunning races since 1981 and providing detailed athlete profiles.
 
 ### Implementation
 
