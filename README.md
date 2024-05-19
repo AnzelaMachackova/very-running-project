@@ -16,6 +16,7 @@ For this project, the following technologies were used:
 These technologies were chosen not only for their individual capabilities but also for their synergy in creating a robust data engineering pipeline.
 
 ### Architecture and Workflow
+![project_diagram](project_diagrams/project.jpg)
 
 The architecture of the project is illustrated in the diagram with the following workflow:
 
@@ -28,20 +29,31 @@ The architecture of the project is illustrated in the diagram with the following
 The implementation steps involved:
 
 - **Infrastructure Setup**: Using Terraform to create resources (like data buckets, datasets etc.) and Docker to containerize Airflow.
+- **Job Scheduling**: All the steps are scheduled and managed through Airflow, ensuring seamless end-to-end data flow.
+![orchestration_workflow](project_diagrams/orchestration_workflow.png)
 - **Data Extraction**: Setting up a DAG in Airflow that pulls data from Kaggle and stores it in Google Cloud Storage.
 - **Data Processing**: A PySpark script in Jupyter notebook transforms the data and stores it back on GCS. This script was later adapted to run as a Dataproc job processing data into BigQuery.
 - **Data Transformation**: Further transformations are managed through dbt Cloud, where models and scripts are developed to structure the data effectively for reporting.
-- **Job Scheduling**: The dbt jobs are scheduled and managed through Airflow, ensuring seamless end-to-end data flow.
+![dbt_model](project_diagrams/dbt_model.png)
 
+### Final Looker report
+**Races Overview:** The first dashboard provides a detailed analysis of ultrarunning races over time, showing a trend of increasing races annually from 1981 to 2022. It includes a world map highlighting race locations globally, the total number of races and finishers, and a graph of average speeds of male and female athletes over the years.
+
+![races_overview](project_diagrams/report-1.png) 
+
+**Athletes Overview:** The second dashboard focuses on the participants, showing the gender distribution in races, with a significant majority being male. It also charts the increase in participation over time for both genders and shows the top countries by athlete participation, with the USA leading significantly.
+
+![athletes_overview](project_diagrams/report-2.png) 
+  
 ### Challenges and Results
 
 This project had many challenges:
 
-**Learning New Tools**: This was my first time using dbt, and it was great experience.
+- **Learning New Tools**: This was my first time using dbt, and it was great experience.
 
-**Data Processing**: Managing Dataproc clusters and building a data model wasn’t easy because there was so much different data.
+- **Data Processing**: Managing Dataproc clusters and building a data model wasn’t easy because there was so much different data.
 
-**Infrastructure Management**: Using Terraform, handling IAM roles and other services taught me a lot about managing cloud systems.
+- **Infrastructure Management**: Using Terraform, handling IAM roles and other services taught me a lot about managing cloud systems.
 The part I enjoyed least was making the **visual reports in Looker**, but it was important for getting useful results.
 
 ### Conclusion and Recommendations
