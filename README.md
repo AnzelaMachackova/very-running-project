@@ -2,6 +2,8 @@
 
 The project When Data Goes the Distance 2.0 started as part of a Data Engineering Zoomcamp course. It looks into Kaggle dataset about ultrarunning races and athletes, going back to 1798. This project builds on my earlier work where I used tools like PySpark, pandas, and matplotlib for analysing the same dataset. This time, I'm focusing on how to store data in a warehouse and process it before any analysis. 
 
+**Spark project with data analysis:** [When Data Goes the Distance](https://github.com/AnzelaMachackova/when-data-goes-the-distance)
+
 ### Technology Overview
 
 For this project, the following technologies were used:
